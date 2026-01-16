@@ -909,6 +909,9 @@ class MedicineScanner {
 }
 
 // Initialize the scanner when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    window.scanner = new MedicineScanner();
+document.addEventListener("DOMContentLoaded", () => {
+    initScanner();
+    loadMedicineDatabase();
+    setupEventListeners();
 });
+;
