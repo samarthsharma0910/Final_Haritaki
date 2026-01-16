@@ -31,7 +31,7 @@ class MedicineScanner {
 
    async loadMedicineDatabase() {
     try {
-        const response = await fetch('templates/medicines.csv');
+        const response = await fetch('static/medicines.csv');
         const csvText = await response.text();
 
         const rows = csvText.split('\n').slice(1);
