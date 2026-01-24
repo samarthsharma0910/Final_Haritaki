@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,10 +12,93 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+<style>
+    .show-toggle-wrapper {
+        margin-top: 1.5rem;
+        text-align: center;
+    }
+
+    .show-toggle-wrapper .btn-secondary {
+        min-width: 200px;
+    }
+    .topbar-profile-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff; /* match your topbar */
+}
+
+.topbar-logout-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.topbar-logout-btn:hover {
+  background: #fff;
+  color: #2563eb; /* or your primary color */
+}
+.topbar-profile {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-caret {
+  margin-left: 6px;
+  font-size: 0.8rem;
+}
+
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  padding: 6px 0;
+  min-width: 120px;
+  display: none;
+  z-index: 20;
+}
+
+.profile-dropdown.open {
+  display: block;
+}
+
+.profile-dropdown-item {
+  width: 100%;
+  text-align: left;
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: inherit;
+  color: #111827;
+}
+
+.profile-dropdown-item:hover {
+  background: #f3f4f6;
+}
+
+
+</style>
 
 <body>
     <!-- Top bar with hamburger -->
-     
+
+    <!-- Top bar with hamburger -->
     <div class="topbar">
         <div id="menuBackdrop" class="menu-backdrop"></div>
 
@@ -29,12 +111,16 @@
             <span>HARITAKI</span>
         </div>
 
-        <!-- Login button at top right -->
-        <a href="templates/login.html" class="topbar-login-btn">
-            <i class="fas fa-user-circle"></i>
-            <span>Login</span>
-        </a>
+        <!-- This container will be controlled by JS -->
+        <div id="authArea">
+            <!-- Default: show Login -->
+            <a href="templates/login.html" class="topbar-login-btn" id="loginLink">
+                <i class="fas fa-user-circle"></i>
+                <span>Login</span>
+            </a>
+        </div>
     </div>
+
 
 
 
@@ -177,6 +263,13 @@
                             <p>Loading hospitals data...</p>
                         </div>
                     </div>
+
+                    <div class="show-toggle-wrapper">
+                        <button id="showMoreBtn" class="btn-secondary">Show more hospitals</button>
+                        <button id="showLessBtn" class="btn-secondary" style="display:none;">Show less
+                            hospitals</button>
+                    </div>
+
                 </div>
 
                 <!-- Hospital Detail Modal -->
@@ -347,48 +440,39 @@
             </footer>
         </div>
     </div>
-    
+
     </div>
     <!-- Chatbot Widget -->
-<!-- Chatbot Mini Button -->
-<div id="chatbot-mini">Chat with AI</div>
+    <!-- Chatbot Mini Button -->
+    <div id="chatbot-mini">Chat with AI</div>
 
-<!-- Fullscreen Chatbot -->
-<div id="chatbot-full">
-  <div class="chatbot-header">
-    <span>Dr. HealthAI</span>
-    <button id="chatbot-close">✕</button>
-  </div>
+    <!-- Fullscreen Chatbot -->
+    <div id="chatbot-full">
+        <div class="chatbot-header">
+            <span>Dr. HealthAI</span>
+            <button id="chatbot-close">✕</button>
+        </div>
 
-  <iframe
-    src="https://haritaki-chatbot.netlify.app/"
-    allow="microphone; camera"
-  ></iframe>
-</div>
+        <iframe src="https://haritaki-chatbot.netlify.app/" allow="microphone; camera"></iframe>
+    </div>
 
 
 
 
-    
+
 
 
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <script src="static/script.js"></script>
+    <script type="module" src="static/auth-state.js"></script>
+
 
     <!-- Sidebar toggle helper (optional if not already in script.js) -->
-    
+
 
 </body>
 
 
 </html>
-
-
-
-
-
-
-
-
