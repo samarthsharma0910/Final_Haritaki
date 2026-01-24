@@ -17,6 +17,13 @@ const cityFilter = document.getElementById('cityFilter');
 const specialtyFilter = document.getElementById('specialtyFilter');
 const hospitalResults = document.getElementById('hospitalResults');
 const resultCount = document.getElementById('resultCount');
+
+// Show more / less
+const showMoreBtn = document.getElementById('showMoreBtn');
+const showLessBtn = document.getElementById('showLessBtn');
+const INITIAL_VISIBLE = 6;
+let showingAll = false;
+
 const gridViewBtn = document.getElementById('gridViewBtn');
 const listViewBtn = document.getElementById('listViewBtn');
 const hospitalModal = document.getElementById('hospitalModal');
@@ -80,7 +87,27 @@ function setupEventListeners() {
             closeFeedbackModal();
         }
     });
+
+    // 🔽 ADD THIS BLOCK AT THE END
+    if (showMoreBtn && showLessBtn) {
+        showMoreBtn.addEventListener('click', () => {
+            showingAll = true;
+            renderHospitals();
+            document
+              .querySelector('.results-container')
+              .scrollIntoView({ behavior: 'smooth' });
+        });
+
+        showLessBtn.addEventListener('click', () => {
+            showingAll = false;
+            renderHospitals();
+            document
+              .querySelector('.results-container')
+              .scrollIntoView({ behavior: 'smooth' });
+        });
+    }
 }
+
 
 // Populate filter dropdowns
 function populateFilters() {
@@ -137,7 +164,7 @@ function filterHospitals() {
         
         return matchesSearch && matchesCity && matchesSpecialty;
     });
-    
+    showingAll = false; // Reset to initial view on new filter
     renderHospitals();
     updateStatistics();
 }
@@ -147,6 +174,7 @@ function clearSearch() {
     searchInput.value = '';
     cityFilter.value = 'all';
     specialtyFilter.value = 'all';
+    showingAll = false;
     filterHospitals();
 }
 
@@ -174,14 +202,23 @@ function renderHospitals() {
             </div>
         `;
         resultCount.textContent = '(0 found)';
+        if (showMoreBtn && showLessBtn) {
+            showMoreBtn.style.display = 'none';
+            showLessBtn.style.display = 'none';
+        }
         return;
     }
-    
+
     resultCount.textContent = `(${filteredHospitals.length} found)`;
-    
+
+    // Decide which hospitals to show
+    const listToShow = showingAll
+        ? filteredHospitals
+        : filteredHospitals.slice(0, INITIAL_VISIBLE);
+
     let hospitalsHTML = '';
-    
-    filteredHospitals.forEach(hospital => {
+
+    listToShow.forEach(hospital => {
         hospitalsHTML += `
             <div class="hospital-card" data-id="${hospital.id}">
                 <div class="hospital-header">
@@ -214,17 +251,19 @@ function renderHospitals() {
                             <p>${hospital.ayushman_enabled}</p>
                         </div>
                     </div>
-                    
+
                     <div class="facilities">
                         <h4><i class="fas fa-clipboard-list"></i> Key Facilities</h4>
                         <div class="facilities-tags">
                             ${hospital.facilities.slice(0, 4).map(facility => `
                                 <span class="facility-tag">${facility}</span>
                             `).join('')}
-                            ${hospital.facilities.length > 4 ? `<span class="facility-tag">+${hospital.facilities.length - 4} more</span>` : ''}
+                            ${hospital.facilities.length > 4
+                                ? `<span class="facility-tag">+${hospital.facilities.length - 4} more</span>`
+                                : ''}
                         </div>
                     </div>
-                    
+
                     <div class="hospital-actions">
                         <button class="action-btn directions" onclick="openDirections(${hospital.id})">
                             <i class="fas fa-directions"></i> Directions
@@ -237,9 +276,24 @@ function renderHospitals() {
             </div>
         `;
     });
-    
+
     hospitalResults.innerHTML = hospitalsHTML;
+
+    // Handle visibility of show more / less
+    if (showMoreBtn && showLessBtn) {
+        if (filteredHospitals.length <= INITIAL_VISIBLE) {
+            showMoreBtn.style.display = 'none';
+            showLessBtn.style.display = 'none';
+        } else if (showingAll) {
+            showMoreBtn.style.display = 'none';
+            showLessBtn.style.display = 'inline-block';
+        } else {
+            showMoreBtn.style.display = 'inline-block';
+            showLessBtn.style.display = 'none';
+        }
+    }
 }
+
 
 // Update statistics
 function updateStatistics() {
