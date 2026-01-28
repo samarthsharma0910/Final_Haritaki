@@ -1108,3 +1108,65 @@ footer {
   width: 100%;
   border: none;
 }
+/* Glassmorphism Sidebar */
+/* ===== BLUE GLASS SIDEBAR ===== */
+.sidebar {
+  background: linear-gradient(
+    180deg,
+    rgba(26, 115, 232, 0.55),
+    rgba(13, 71, 161, 0.65)
+  );
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 8px 0 30px rgba(13, 71, 161, 0.35);
+}
+
+/* Sidebar logo text */
+.sidebar-logo {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.sidebar-logo i {
+  color: #e3f2fd;
+}
+
+
+/* Sidebar menu links */
+.sidebar-menu li a {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  margin: 6px 10px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  transition: all 0.3s ease;
+}
+
+
+/* Hover effect – premium glow */
+.sidebar-menu li a:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: translateX(6px);
+  box-shadow: 0 6px 18px rgba(255, 255, 255, 0.2);
+}
+
+/* Icons */
+.sidebar-menu li a i {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Bottom logout */
+.sidebar-bottom a {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-radius: 12px;
+  margin: 10px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-bottom a:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
